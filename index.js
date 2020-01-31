@@ -3,14 +3,10 @@ const WebSocket = require('ws');
 
 const iotawattAddr = process.env.IOTAWATT_ADDR;
 const wsPort = process.env.PORT;
+const intervalMs = process.env.INTERVAL_MS;
 
-if (iotawattAddr === undefined) {
-  console.error('IOTAWATT_ADDR environment variable not specified');
-  process.exit(1);
-}
-
-if (wsPort === undefined) {
-  console.error('PORT environment variable not specified');
+if (iotawattAddr === undefined || wsPort === undefined || intervalMs === undefined) {
+  console.error('IOTAWATT_ADDR, WS_PORT and INTERVAL_MS environment variables must be specified');
   process.exit(1);
 }
 
@@ -58,7 +54,7 @@ const app = async () => {
         client.send(data);
       }
     })
-  }, 2500);
+  }, intervalMs);
 };
 
 app();
